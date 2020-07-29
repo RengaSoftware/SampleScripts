@@ -4,7 +4,7 @@ Sample scripts to demonstrate how to work with Renga API
 
 About
 -----
-Scripts to demonstrate the work with [Renga API from Python](http://help.rengabim.com/api/how-to-dt-language.html)
+This repository contains sample scripts demonstrating usage of the [Renga API, using Python](http://help.rengabim.com/api/how-to-dt-language.html)
 
 
 How to run python script
