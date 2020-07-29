@@ -1,0 +1,25 @@
+{
+  "Тип помещения": { 
+		"id": "f27c17e1-0a5b-4208-91d3-03fa3ae719fe",
+		"property_type": "String",
+		"object_type": ["{F1A805FF-573D-F46B-FFBA-57F4BCCAA6ED}", "{9FABC932-590F-4068-89A8-EE6EE3D7CBBF}"] 
+  },
+  "Код помещения": {
+		"property_type": "Enum",
+		"list": ["30 10", "30 20", "30 30"]
+    },
+   "Номер секции": {
+		"property_type": "Int"
+   },
+   "Номер квартиры": {
+		"property_type": "Int"
+   },
+   "Тип квартиры": {
+		"property_type": "Enum",
+		"list": ["С", "К", "Е", "2У"]
+    },
+	"Количество комнат": {
+		"property_type": "Enum",
+		"list": ["1", "2", "3", "4", "5"]
+    }
+}
