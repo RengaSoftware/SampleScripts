@@ -44,7 +44,7 @@ if __name__ == '__main__':
                           "Logical": 9, "Mass": 10, "Volume": 11}  # типы свойств, см. http://help.rengabim.com/api/group__properties.html
 
         # парсинг json
-        with open(args.properties) as properties:
+        with open(args.properties, encoding="utf-8") as properties:
             # загрузка данных
             data = json.load(properties)
 
