@@ -6,7 +6,8 @@ def parseArgs():
     parser = argparse.ArgumentParser(description="Print topic names")
     parser.add_argument("--project", dest="projectPath", help="Project path", required=True)
     parser.add_argument("--topic", dest="topicName",help="Topic name", required=True)
-    parser.add_argument("--pdf", dest="pdfPath", help="Pdf Path", required=True)                    
+    parser.add_argument("--pdf", dest="pdfPath", help="Pdf path", required=True)                    
+
     return parser.parse_args()
 
 # функция получения имени раздела по идентификатору раздела
