@@ -17,6 +17,7 @@ How to run python script
 Scripts
 -----
 - [Create properties in the project according to the given scheme.](https://github.com/RengaSoftware/SampleScripts/tree/master/CreateProperties) 
+- [Export drawings sorted by number in the topic.](https://github.com/RengaSoftware/SampleScripts/tree/master/ExportDrawings) 
 
 Other links
 -----
