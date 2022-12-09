@@ -32,7 +32,8 @@ def getTopicDrawingIds(project, topicName):
             result.append(drawing.UniqueIdS)
     return result
 
-# функция сортировки выбранных чертежей по номерам
+# функция получения идентификаторов чертежей отсортиванных чертежей по номерам
+
 def getSortedDrawingsByNumber(project, drawingIds):
     return sorted(drawingIds, key=lambda id: project.GetEntityNumberInTopicS(id))
 
