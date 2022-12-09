@@ -67,6 +67,7 @@ if __name__ == '__main__':
         sortedDrawings = getSortedDrawingsByNumber(project, topicDrawingIds)
 
         # пакетный экспорт в PDF отсортированных чертежей
+        print("Идёт экспорт... Не закрывайте окно")
         project.ExportDrawingsToPdfS(sortedDrawings, args.pdfPath, True)
         print("Чертежи экпортированы")
 
