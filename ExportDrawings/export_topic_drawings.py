@@ -27,9 +27,11 @@ def getTopicDrawingIds(project, topicName):
         topicParam = params.GetS("3B7FDF99-6C5E-4FED-8A3C-42149FE5D8B4")
         # получаем идентификатор раздела чертежа 
         topicId = topicParam.GetIntValue()
+        # проверяем, что чертежу назначен раздел
+        if topicId != 1 :
         # проверям какой раздел назначен чертежу, если раздел подходит, добавляем идентификатор в список
-        if getTopicName(project, topicId) == topicName:
-            result.append(drawing.UniqueIdS)
+            if getTopicName(project, topicId) == topicName:
+                result.append(drawing.UniqueIdS)
     return result
 
 # функция получения идентификаторов чертежей отсортиванных чертежей по номерам
