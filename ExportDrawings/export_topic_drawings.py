@@ -14,6 +14,15 @@ def parseArgs():
 def getTopicName(project, topicId):
     return project.Topics.GetById(topicId).Name
 
+
+def checkTopicExistence(project, topicId):
+    topics = project.Topics.GetIds()
+    if topicId in topics:
+        return 1
+    else:
+        return 0
+    
+
 # функция получения списка идентификаторов чертежей в выбранном разделе
 def getTopicDrawingIds(project, topicName):
     result = []
@@ -27,9 +36,11 @@ def getTopicDrawingIds(project, topicName):
         topicParam = params.GetS("3B7FDF99-6C5E-4FED-8A3C-42149FE5D8B4")
         # получаем идентификатор раздела чертежа 
         topicId = topicParam.GetIntValue()
+        # проверяем, что раздел существует
+        if checkTopicExistence(project, topicId) == 1 :
         # проверям какой раздел назначен чертежу, если раздел подходит, добавляем идентификатор в список
-        if getTopicName(project, topicId) == topicName:
-            result.append(drawing.UniqueIdS)
+           if getTopicName(project, topicId) == topicName:
+              result.append(drawing.UniqueIdS)
     return result
 
 # функция получения идентификаторов чертежей отсортиванных чертежей по номерам
