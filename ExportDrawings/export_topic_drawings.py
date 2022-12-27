@@ -16,8 +16,8 @@ def getTopicName(project, topicId):
 
 
 def checkTopicExistence(project, topicId):
-    topics = project.Topics.GetIds()
-    if topicId in topics:
+    topicIds = project.Topics.GetIds()
+    if topicId in topicIds:
         return 1
     else:
         return 0
