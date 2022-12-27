@@ -17,10 +17,7 @@ def getTopicName(project, topicId):
 
 def checkTopicExistence(project, topicId):
     topicIds = project.Topics.GetIds()
-    if topicId in topicIds:
-        return 1
-    else:
-        return 0
+    return topicId in topicIds
     
 
 # функция получения списка идентификаторов чертежей в выбранном разделе
@@ -37,7 +34,7 @@ def getTopicDrawingIds(project, topicName):
         # получаем идентификатор раздела чертежа 
         topicId = topicParam.GetIntValue()
         # проверяем, что раздел существует
-        if checkTopicExistence(project, topicId) == 1 :
+        if checkTopicExistence(project, topicId):
         # проверям какой раздел назначен чертежу, если раздел подходит, добавляем идентификатор в список
            if getTopicName(project, topicId) == topicName:
               result.append(drawing.UniqueIdS)
