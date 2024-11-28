@@ -13,6 +13,7 @@ def parseArgs():
     parser = argparse.ArgumentParser(description="Create properties in Renga project")
     parser.add_argument("--project", dest = "project", help="Project path", required=True)
     parser.add_argument("--properties", dest = "properties", help="Properties JSON path", required=True)
+    parser.add_argument("--result_project", dest = "result_project", help="New project path")
     return parser.parse_args()
 
 if __name__ == '__main__':
@@ -43,10 +44,15 @@ if __name__ == '__main__':
         prop_type_dict = {"Double": 1, "String": 2, "Angle": 3, "Area": 4, "Boolean": 5, "Enum": 6, "Int": 7, "Length": 8,
                           "Logical": 9, "Mass": 10, "Volume": 11}  # типы свойств, см. http://help.rengabim.com/api/group__properties.html
 
+
+
         # парсинг json
         with open(args.properties, encoding="utf-8") as properties:
             # загрузка данных
             data = json.load(properties)
+
+            operation = project.CreateOperation()
+            operation.Start()
 
             for element, values in data.items():
                 # имя секции принимаем за имя свойства
@@ -55,9 +61,12 @@ if __name__ == '__main__':
                 prop_type = values['property_type']
                 prop_type_id = prop_type_dict.get(prop_type)
 
+
                 # описание свойства
                 prop_desc = property_mng.CreatePropertyDescription(
                     prop_name, prop_type_id)
+
+
                 # добавление списка, если тип свойства - перечисление
                 if prop_type == "Enum":
                     enumeration_items = values['list']
@@ -71,16 +80,33 @@ if __name__ == '__main__':
 
                 # регистрация свойства
                 property_mng.RegisterPropertyS2(prop_id, prop_desc)
+                print("Свойство " + prop_name + " зарегистрировано в проекте") 
+
+                # получение выражения из JSON, если оно есть
+                if 'expression' in values:
+                    prop_expression = values['expression']
+                else:
+                    prop_expression = None  
 
                 #присваивание свойства всем выбранным типам объектов. Типы объектов задаются по # uuid типа объекта, которому нужно присвоить заданные значения, см. http://help.rengabim.com/api/group___object_types.html
                 if 'object_type' in values:
                     for object_type_id in values['object_type']:
                         property_mng.AssignPropertyToTypeS(prop_id, object_type_id)
-                    print("Свойство " + prop_name + " назначено")
+                        print("Свойство " + prop_name + " назначено для " + object_type_id)                     
+                        if prop_expression is None:
+                           print("Выражение для свойства " + prop_name + " не указано")                           
+                        else:
+                           property_mng.SetExpressionS(prop_id, object_type_id, prop_expression)
+                           print("Выражение для " + object_type_id + " задано")                        
+
+            operation.Apply()
 
         print("Сохранение проекта")
-        result = project.Save()
-        if result != 0:
+        if args.result_project != 0:
+            result =  project.SaveAs(args.result_project, 0, 1)
+        elif args.result_project is None:
+             result = project.Save()
+        else:
             raise LogicalError("Ошибка сохранения")
 
         print("Закрытие проекта")
