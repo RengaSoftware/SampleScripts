@@ -29,18 +29,18 @@ def getTopicDrawingIds(project, topicName):
         drawing = project.Drawings2.GetById(drawingId)
         #получаем параметры чертежа
         params = drawing.GetInterfaceByName('IParameterContainer')
-        # из парамеров выбираем раздел, подставляем идентификатор параметра из справки https://help.rengabim.com/api/group__parameter_ids.html
+        # из параметров выбираем раздел, подставляем идентификатор параметра из справки https://help.rengabim.com/api/group__parameter_ids.html
         topicParam = params.GetS("3B7FDF99-6C5E-4FED-8A3C-42149FE5D8B4")
         # получаем идентификатор раздела чертежа 
         topicId = topicParam.GetIntValue()
         # проверяем, что раздел существует
         if existsTopic(project, topicId):
-        # проверям какой раздел назначен чертежу, если раздел подходит, добавляем идентификатор в список
+        # проверяем какой раздел назначен чертежу, если раздел подходит, добавляем идентификатор в список
            if getTopicName(project, topicId) == topicName:
               result.append(drawing.UniqueIdS)
     return result
 
-# функция получения идентификаторов чертежей отсортиванных чертежей по номерам
+# функция получения идентификаторов чертежей отсортированных чертежей по номерам
 
 def getSortedDrawingsByNumber(project, drawingIds):
     return sorted(drawingIds, key=lambda id: project.GetEntityNumberInTopicS(id))
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         # пакетный экспорт в PDF отсортированных чертежей
         print("Идёт экспорт... Не закрывайте окно")
         project.ExportDrawingsToPdfS(sortedDrawings, args.pdfPath, True)
-        print("Чертежи экпортированы")
+        print("Чертежи экспортированы")
 
         print("Закрытие проекта")
         result = app.CloseProject(1)
