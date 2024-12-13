@@ -4,9 +4,9 @@ import win32com.client
 
 def parseArgs():
     parser = argparse.ArgumentParser(description="Print topic names")
-    parser.add_argument("--project", dest="projectPath", help="Project path", required=True)
+    parser.add_argument("--project", dest="projectPath", help="Project file path", required=True)
     parser.add_argument("--topic", dest="topicName",help="Topic name", required=True)
-    parser.add_argument("--pdf", dest="pdfPath", help="Pdf path", required=True)                    
+    parser.add_argument("--pdf", dest="pdfPath", help="Pdf file path", required=True)                    
 
     return parser.parse_args()
 
