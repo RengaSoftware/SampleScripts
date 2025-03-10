@@ -6,8 +6,10 @@ def parseArgs():
     parser = argparse.ArgumentParser(description="Print topic names")
     parser.add_argument("--project", dest="projectPath", help="Project file path", required=True)
     parser.add_argument("--topic", dest="topicName",help="Topic name", required=True)
-    parser.add_argument("--pdf", dest="pdfPath", help="Pdf file path", required=True)                    
-
+    parser.add_argument("--pdf", dest="pdfPath", help="PDF path", required=False)
+    parser.add_argument("--oxps", dest="oxpsPath", help="OXPS path", required=False)
+    parser.add_argument("--dwg", dest="dwgFolder", help="DWG folder", required=False)                    
+                   
     return parser.parse_args()
 
 # функция получения имени раздела по идентификатору раздела
@@ -75,9 +77,35 @@ if __name__ == '__main__':
         sortedDrawings = getSortedDrawingsByNumber(project, topicDrawingIds)
 
         # пакетный экспорт в PDF отсортированных чертежей
-        print("Идёт экспорт... Не закрывайте окно")
-        project.ExportDrawingsToPdfS(sortedDrawings, args.pdfPath, True)
-        print("Чертежи экспортированы")
+        if args.pdfPath:
+            print("Идёт экспорт в PDF... Не закрывайте окно")
+            exportRes = project.ExportDrawingsToPdfS(sortedDrawings, args.pdfPath, True)
+            if exportRes == 0:
+                print("Чертежи экспортированы в PDF")
+            else:
+                print("Ошибка экспорта чертежей в PDF")
+
+        # пакетный экспорт в OXPS отсортированных чертежей
+        if args.oxpsPath:
+            print("Идёт экспорт в OXPS... Не закрывайте окно")
+            exportRes = project.ExportDrawingsToOpenXpsS(sortedDrawings, args.oxpsPath, True)
+            if exportRes == 0:
+                print("Чертежи экспортированы в OXPS")
+            else:
+                print("Ошибка экспорта чертежей в OXPS")
+
+        # пакетный экспорт в DWG чертежей из раздела
+        if args.dwgFolder:
+            drawings = project.Drawings
+            drawingsCount = drawings.Count
+            for i in range(0, drawingsCount):
+                drawing = drawings.Get(i)
+                if drawing.IdS in sortedDrawings:
+                    exportRes = drawing.ExportToDwg("{}/{}.dwg".format(args.dwgFolder, drawing.Name) , 0, True)
+                    if exportRes == 0:
+                       print("Чертеж '{}' экспортирован в DWG".format(drawing.Name))
+                    else:
+                       print("Ошибка экспорта чертежа '{}' в DWG".format(drawing.Name))        
 
         print("Закрытие проекта")
         result = app.CloseProject(1)
