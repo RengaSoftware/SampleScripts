@@ -96,16 +96,19 @@ if __name__ == '__main__':
 
         # пакетный экспорт в DWG чертежей из раздела
         if args.dwgFolder:
-            drawings = project.Drawings
-            drawingsCount = drawings.Count
-            for i in range(0, drawingsCount):
-                drawing = drawings.Get(i)
-                if drawing.IdS in sortedDrawings:
-                    exportRes = drawing.ExportToDwg("{}/{}.dwg".format(args.dwgFolder, drawing.Name) , 0, True)
-                    if exportRes == 0:
-                       print("Чертеж '{}' экспортирован в DWG".format(drawing.Name))
-                    else:
-                       print("Ошибка экспорта чертежа '{}' в DWG".format(drawing.Name))        
+            print("Идёт экспорт в DWG... Не закрывайте окно")
+            for drawingUniqueIdS in sortedDrawings:
+                # получаем IEntity по уникальному идентификатору (строка GUID)
+                drawingEntity = project.Drawings2.GetByUniqueIdS(drawingUniqueIdS)
+                # получаем интерфейс IDrawing из IEntity
+                drawing = drawingEntity.GetInterfaceByName('IDrawing')
+                exportRes = drawing.ExportToDwg(
+                    "{}/{}.dwg".format(args.dwgFolder, drawing.Name), 0, True
+                )
+                if exportRes == 0:
+                    print("Чертеж '{}' экспортирован в DWG".format(drawing.Name))
+                else:
+                    print("Ошибка экспорта чертежа '{}' в DWG".format(drawing.Name))      
 
         print("Закрытие проекта")
         result = app.CloseProject(1)
